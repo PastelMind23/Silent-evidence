@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>หลักฐานเงียบ: เกมจำลองห้องปฏิบัติการนิติเวช</title>
+<style>
+:root{--bg:#f7f6f2;--card:#fff;--fg:#1f2328;--mut:#5c6370;--line:#dcd9d0;--acc:#0f6e56;--accbg:#e1f3ec;--bad:#a32d2d;--badbg:#fbeaea;--warn:#7a4f00;--warnbg:#fdf2dc;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16181b;--card:#1f2226;--fg:#e8e6e1;--mut:#a3a9b3;--line:#363a40;--acc:#5fcfa8;--accbg:#173128;--bad:#f09595;--badbg:#3a1f1f;--warn:#f0c670;--warnbg:#3a2e14;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16181b;--card:#1f2226;--fg:#e8e6e1;--mut:#a3a9b3;--line:#363a40;--acc:#5fcfa8;--accbg:#173128;--bad:#f09595;--badbg:#3a1f1f;--warn:#f0c670;--warnbg:#3a2e14;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Sarabun","Noto Sans Thai",sans-serif;line-height:1.6}
+#app{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:18px;margin:16px 0 8px}
+.mut{color:var(--mut);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+button{font:inherit;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer;margin:4px 4px 4px 0}
+button.p{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+button:disabled{opacity:.45;cursor:default}
+.opt{display:block;width:100%;text-align:left;margin:6px 0}
+.ok{background:var(--accbg);border-radius:8px;padding:8px 12px;margin-top:8px}
+.no{background:var(--badbg);color:var(--bad);border-radius:8px;padding:8px 12px;margin-top:8px}
+.wn{background:var(--warnbg);color:var(--warn);border-radius:8px;padding:8px 12px;margin-top:8px}
+.bar{height:6px;background:var(--line);border-radius:3px;margin:8px 0 14px}.bar i{display:block;height:100%;background:var(--acc);border-radius:3px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ===== ส่วนเนื้อหา: อาจารย์/นักศึกษาแก้เฉพาะข้อความในส่วนนี้ ===== */
+const CASE = {
+  title: "หลักฐานเงียบ",
+  caseNo: "คดีสมมติ F-2569/018",
+  brief: "เจ้าของหอพักพบผู้เช่าชาย อายุ 47 ปี (นามสมมติ คุณเอกชัย) เสียชีวิตในห้องพัก ไม่พบร่องรอยการต่อสู้ ที่โต๊ะมีแก้วน้ำที่ดื่มค้างไว้ คุณรับบทนักเทคนิคการแพทย์ประจำห้องปฏิบัติการนิติเวช มีหน้าที่เก็บตัวอย่างและวางแผนการตรวจ (เคสนี้เป็นเรื่องสมมติเพื่อการเรียนการสอน ไม่อิงเหตุการณ์จริง)",
+  evidence: [
+    { name: "ตัวอย่างเลือด", icon: "🩸", custodyPts: 3, collectPts: 7,
+      collect: { q: "จะเก็บเลือดอย่างไรจึงเหมาะสมที่สุด",
+        options: ["เก็บจากหลอดเลือดดำส่วนปลาย (เช่น femoral) ใส่หลอดที่มีสารกันเลือดแข็ง/สารถนอมตัวอย่าง ปิดผนึกและติดป้าย",
+                  "เก็บเลือดจากช่องอกหรือหัวใจ ใส่ขวดสะอาดใบใดก็ได้",
+                  "ใช้ผ้าซับเลือดที่พื้นห้องแล้วใส่ถุง"],
+        correct: 0,
+        why: "เลือดจากหลอดเลือดส่วนปลายได้รับผลจาก postmortem redistribution น้อยกว่าเลือดจากช่องอก/หัวใจ จึงแปลผลความเข้มข้นได้น่าเชื่อถือกว่า [นักศึกษา: ใส่อ้างอิงจริง]" },
+      screen: { name: "Immunoassay (กลุ่ม opiate)", result: "ผลบวก (ข้อมูลสมมติ)",
+        why: "Screening บอกได้เพียงว่าอาจมียาในกลุ่มนี้ ไม่ระบุสารจำเพาะ และอาจเกิดผลบวกลวงได้ จึงต้องยืนยันต่อ" },
+      confirm: { name: "GC-MS / LC-MS/MS", result: "ตรวจพบ morphine ที่ความเข้มข้นสูง (ค่าสมมติ นักศึกษาใส่ค่าจริงจากอ้างอิง)",
+        why: "Confirmatory แยกชนิดสารและวัดปริมาณได้จำเพาะ ใช้เป็นผลที่รายงานในทางกฎหมาย" } },
+    { name: "เส้นผม", icon: "💇", custodyPts: 3, collectPts: 7,
+      collect: { q: "จะเก็บเส้นผมอย่างไรจึงเหมาะสมที่สุด",
+        options: ["ตัดชิดหนังศีรษะบริเวณท้ายทอย/กลางศีรษะ ทำเครื่องหมายด้านปลายราก ห่อด้วยกระดาษหรือฟอยล์",
+                  "ตัดเฉพาะปลายผมโดยไม่ระบุทิศทาง ใส่ถุงรวมกับหลักฐานอื่น",
+                  "ใช้หวีสางผมแล้วเก็บเส้นผมที่หลุดมา"],
+        correct: 0,
+        why: "การตัดชิดหนังศีรษะและระบุทิศทางปลายราก ทำให้แบ่งส่วนตรวจเทียบกับช่วงเวลาที่ผ่านมาได้ [นักศึกษา: ใส่อ้างอิงจริง]" },
+      screen: { name: "Immunoassay หลังล้างและสกัด", result: "ผลบวกกลุ่ม opiate (ข้อมูลสมมติ)",
+        why: "ต้องล้างเส้นผมเพื่อลดการปนเปื้อนจากภายนอกก่อนสกัด ผล screening ยังเป็นเพียงกลุ่มยา" },
+      confirm: { name: "LC-MS/MS", result: "พบ morphine ในส่วนผมที่ตรวจ บ่งชี้การได้รับสารซ้ำหลายเดือน แต่ไม่บอกเวลาของครั้งสุดท้าย",
+        why: "เส้นผมบอกประวัติการได้รับสารระยะยาว ไม่ใช่หลักฐานของการได้รับขนาดสูงครั้งสุดท้ายก่อนเสียชีวิต" } },
+    { name: "รอยนิ้วมือบนแก้วน้ำ", icon: "🖐️", custodyPts: 4, collectPts: 6,
+      collect: { q: "แก้วเป็นพื้นผิวเรียบไม่ดูดซึม จะตรวจหาและเก็บรอยอย่างไร",
+        options: ["ใช้ผงตรวจลายนิ้วมือหรือ cyanoacrylate fuming ถ่ายภาพก่อนยกรอย",
+                  "ฉีดสารละลาย ninhydrin ลงบนแก้ว",
+                  "เช็ดแก้วให้สะอาดแล้วส่งห้องแล็บ"],
+        correct: 0,
+        why: "Ninhydrin เหมาะกับพื้นผิวพรุน เช่น กระดาษ ส่วนพื้นผิวเรียบอย่างแก้วใช้ผงหรือ cyanoacrylate และต้องถ่ายภาพไว้ก่อนยก [นักศึกษา: ใส่อ้างอิงจริง]" },
+      screen: { name: "Analysis (ประเมินคุณภาพรอย)", result: "พบรอย 2 ชุด คุณภาพพอเปรียบเทียบได้ (ข้อมูลสมมติ)",
+        why: "ขั้นต้นประเมินว่ารอยมีรายละเอียดพอใช้เปรียบเทียบหรือไม่ ยังไม่ใช่การระบุตัวบุคคล" },
+      confirm: { name: "Comparison และ Verification", result: "ชุดที่ 1 ตรงกับผู้เสียชีวิต ชุดที่ 2 ไม่ตรงกับฐานข้อมูลที่มี",
+        why: "ผู้ตรวจอีกคนต้องตรวจทานอิสระ (verification) และผลนี้บอกเพียงว่ามีผู้สัมผัสแก้ว ไม่ได้สรุปว่ามีใครกระทำความผิด" } }
+  ],
+  causeQ: "จากผลทั้งหมด สาเหตุการเสียชีวิตที่สนับสนุนมากที่สุดคือข้อใด",
+  causeOptions: ["พิษจากยาในกลุ่ม opioid ขนาดสูงเฉียบพลัน", "พิษจากคาร์บอนมอนอกไซด์", "แอลกอฮอล์เพียงอย่างเดียว", "สรุปไม่ได้ ไม่ต้องตรวจเพิ่ม"],
+  causeCorrect: 0,
+  causeWhy: "ผลยืนยันในเลือดพบ morphine ความเข้มข้นสูง ส่วนเส้นผมบอกประวัติระยะยาว และลายนิ้วมือเป็นหลักฐานทางกายภาพ ไม่ตอบสาเหตุการเสียชีวิต การสรุปจริงต้องรวมผลชันสูตรและข้อมูลที่เกิดเหตุด้วย",
+  causePts: 40
+};
+const SEQ_PTS = 10; // คะแนนลำดับการตรวจต่อหลักฐาน
+/* ===== จบส่วนเนื้อหา ===== */
+
+const E = CASE.evidence;
+let S;
+function init(){ S = {stage:0, ev:E.map(()=>({logged:false,picked:null,step:0,seqOk:true,msg:""})), cause:null, tip:""}; render(); }
+const $ = id => document.getElementById(id);
+function go(n){ S.stage = n; S.tip = ""; render(); window.scrollTo(0,0); }
+function bar(){ return '<div class="bar"><i style="width:'+(S.stage/4*100)+'%"></i></div>'; }
+
+function render(){
+  let h = "";
+  if(S.stage===0){
+    h = '<h1>🔬 '+CASE.title+'</h1><div class="mut">'+CASE.caseNo+'</div>'+
+      '<div class="card">'+CASE.brief+'</div>'+
+      '<div class="card"><b>ภารกิจ</b><br>1) เก็บหลักฐาน '+E.length+' ชิ้นพร้อมบันทึก chain of custody<br>2) ส่งตรวจตามลำดับ screening แล้วจึง confirmatory<br>3) สรุปสาเหตุการเสียชีวิต</div>'+
+      '<button class="p" onclick="go(1)">เริ่มเกม</button>';
+  } else if(S.stage===1){
+    h = bar()+'<h2>ขั้นที่ 1: ที่เกิดเหตุ เก็บหลักฐาน</h2><div class="mut">ต้องบันทึก chain of custody ก่อนเก็บทุกชิ้น</div>';
+    E.forEach((e,i)=>{
+      const s=S.ev[i]; const c=e.collect;
+      h += '<div class="card"><b>'+e.icon+' '+e.name+'</b><br>';
+      h += '<button '+(s.logged?'disabled':'')+' onclick="logEv('+i+')">'+(s.logged?'✓ บันทึก chain of custody แล้ว':'บันทึก chain of custody')+'</button>';
+      h += '<div style="margin-top:8px">'+c.q+'</div>';
+      c.options.forEach((o,j)=>{ h += '<button class="opt" '+(s.picked!==null?'disabled':'')+' onclick="pick('+i+','+j+')">'+o+'</button>'; });
+      if(s.msg) h += s.msg;
+      h += '</div>';
+    });
+    if(S.tip) h += '<div class="wn">'+S.tip+'</div>';
+    const done = S.ev.every(s=>s.picked!==null);
+    h += '<button class="p" '+(done?'':'disabled')+' onclick="go(2)">ไปห้องปฏิบัติการ</button>';
+  } else if(S.stage===2){
+    h = bar()+'<h2>ขั้นที่ 2: โต๊ะแล็บ ส่งตรวจ</h2><div class="mut">เลือกว่าจะตรวจแบบไหนก่อนหลัง</div>';
+    E.forEach((e,i)=>{
+      const s=S.ev[i];
+      h += '<div class="card"><b>'+e.icon+' '+e.name+'</b><br>';
+      h += '<button '+(s.step>=1?'disabled':'')+' onclick="runT('+i+',1)">Screening: '+e.screen.name+'</button>';
+      h += '<button '+(s.step>=2?'disabled':'')+' onclick="runT('+i+',2)">Confirmatory: '+e.confirm.name+'</button>';
+      if(s.step>=1 && s.shown1) h += '<div class="ok"><b>ผล screening:</b> '+e.screen.result+'<br><span class="mut">'+e.screen.why+'</span></div>';
+      if(s.step>=2) h += '<div class="ok"><b>ผล confirmatory:</b> '+e.confirm.result+'<br><span class="mut">'+e.confirm.why+'</span></div>';
+      if(!s.seqOk) h += '<div class="wn">คุณสั่ง confirmatory ก่อน screening ในทางปฏิบัติจะเสียเวลาและค่าใช้จ่าย จึงไม่ได้คะแนนลำดับของหลักฐานนี้</div>';
+      h += '</div>';
+    });
+    const done = S.ev.every(s=>s.step>=2);
+    h += '<button class="p" '+(done?'':'disabled')+' onclick="go(3)">สรุปเคส</button>';
+  } else if(S.stage===3){
+    h = bar()+'<h2>ขั้นที่ 3: สรุปเคส</h2><div class="card">'+CASE.causeQ;
+    CASE.causeOptions.forEach((o,j)=>{ h += '<button class="opt" onclick="cause('+j+')">'+o+'</button>'; });
+    h += '</div>';
+  } else {
+    let cu=0, co=0, sq=0;
+    E.forEach((e,i)=>{ if(S.ev[i].logged) cu+=e.custodyPts; if(S.ev[i].picked===e.collect.correct) co+=e.collectPts; if(S.ev[i].seqOk) sq+=SEQ_PTS; });
+    const ca = S.cause===CASE.causeCorrect ? CASE.causePts : 0;
+    const tot = cu+co+sq+ca;
+    h = bar()+'<h1>ผลการประเมิน: '+tot+' / 100</h1>'+
+      '<div class="card">Chain of custody: '+cu+' / '+E.reduce((a,e)=>a+e.custodyPts,0)+'<br>วิธีเก็บตัวอย่าง: '+co+' / '+E.reduce((a,e)=>a+e.collectPts,0)+'<br>ลำดับการตรวจ: '+sq+' / '+(SEQ_PTS*E.length)+'<br>การสรุปสาเหตุ: '+ca+' / '+CASE.causePts+'</div>'+
+      '<div class="'+(ca?'ok':'no')+'"><b>'+(ca?'สรุปถูกต้อง':'สรุปยังไม่ถูกต้อง')+'</b><br>'+CASE.causeWhy+'</div>';
+    h += '<h2>ทบทวนวิธีเก็บตัวอย่าง</h2>';
+    E.forEach(e=>{ h += '<div class="card"><b>'+e.icon+' '+e.name+'</b><br>'+e.collect.options[e.collect.correct]+'<br><span class="mut">'+e.collect.why+'</span></div>'; });
+    h += '<button class="p" onclick="init()">เล่นใหม่</button>';
+  }
+  $("app").innerHTML = h;
+}
+function logEv(i){ S.ev[i].logged = true; S.tip=""; render(); }
+function pick(i,j){
+  const s=S.ev[i], c=E[i].collect;
+  if(!s.logged){ S.tip="ต้องบันทึก chain of custody ของ"+E[i].name+" ก่อนเก็บ ไม่เช่นนั้นหลักฐานจะใช้ในทางกฎหมายไม่ได้"; render(); return; }
+  s.picked=j; S.tip="";
+  s.msg = j===c.correct ? '<div class="ok"><b>ถูกต้อง</b><br>'+c.why+'</div>' : '<div class="no"><b>ยังไม่เหมาะสม</b><br>วิธีที่เหมาะสม: '+c.options[c.correct]+'<br>'+c.why+'</div>';
+  render();
+}
+function runT(i,t){
+  const s=S.ev[i];
+  if(t===1){ s.step=Math.max(s.step,1); s.shown1=true; }
+  else { if(s.step<1) s.seqOk=false; s.step=2; }
+  render();
+}
+function cause(j){ S.cause=j; go(4); }
+init();
+</script>
+</body>
+</html>
